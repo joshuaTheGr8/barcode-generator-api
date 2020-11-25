@@ -40,7 +40,7 @@ namespace barcode_generator.Controllers
 
         public System.Web.Mvc.FileResult GetBarcode2(string code, string name, string batchNumber, string lotNumber, 
             bool includeLotBatchInCode = false, int width = 300, int height = 100,
-            int fontSize = 20, int codeType = (int)ZXing.BarcodeFormat.CODE_128)
+            int fontSize = 20, int codeType = (int)ZXing.BarcodeFormat.CODE_128, string label1 = "Batch No", string label2 = "Lot No")
         {
             var options = new QrCodeEncodingOptions
             {
@@ -59,8 +59,8 @@ namespace barcode_generator.Controllers
 
             var img = new Bitmap(qr.Write(code));
             var imgName = new Bitmap(Helper.ImageFromText(name, fontSize));
-            var imgBatch = new Bitmap(Helper.ImageFromText($"Batch No: {batchNumber}", fontSize));
-            var imgLot = new Bitmap(Helper.ImageFromText($"Lot No: {lotNumber}", fontSize));
+            var imgBatch = new Bitmap(Helper.ImageFromText($"{label1}: {batchNumber}", fontSize));
+            var imgLot = new Bitmap(Helper.ImageFromText($"{label2}: {lotNumber}", fontSize));
 
             var c1 = Helper.MergeTwoImages(img, imgName);
             var c2 = Helper.MergeTwoImages(imgBatch, imgLot);
